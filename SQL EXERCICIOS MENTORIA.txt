@@ -1,0 +1,1353 @@
+-- ---------------------------------------------------------
+-- AULA 5: CREATE SCHEMA / CREATE DATABASE / DROP DATABASE
+--         CREATE TABLE / DESCRIBE / DROP TABLE
+-- ---------------------------------------------------------
+
+CREATE SCHEMA facebook; 
+
+/* Comentário em 
+várias linhas
+*/
+
+CREATE DATABASE facebook;
+
+CREATE DATABASE facebook2;
+
+DROP DATABASE facebook2;
+
+-- DROP SCHEMA facebook2;
+
+USE facebook;
+
+CREATE TABLE usuarios
+(
+  email VARCHAR(30),
+  senha VARCHAR(8)
+);
+
+DESCRIBE usuarios;
+
+DROP TABLE usuarios;
+
+CREATE TABLE usuarios
+(
+  email VARCHAR(30),
+  senha VARCHAR(8)
+);
+
+DROP TABLE usuarios;
+
+CREATE TABLE usuarios
+(
+  email VARCHAR(50),
+  senha VARCHAR(8)
+);
+
+-- ---------------------------------------------------------
+-- AULA 6 - INSERT INTO / TRUNCATE TABLE
+-- ---------------------------------------------------------
+
+INSERT INTO usuarios ( email, senha )
+	VALUES ( 'jamilton@gmail.com', '12345' );
+    
+-- Select Rows - Limit 1000
+
+SELECT * FROM facebook.usuarios;
+
+INSERT INTO usuarios (email, senha)
+  VALUES ('senhateste', 't@gmail');
+
+INSERT INTO usuarios (email, senha)
+  VALUES ('teste@gmail.com', 'novasenh');
+
+TRUNCATE TABLE usuarios;
+
+-- -------------------------------------------------------
+-- AULA 8 - DATA TYPES
+-- -------------------------------------------------------
+
+CREATE TABLE pessoas (
+	numero tinyint    
+);
+
+SELECT * FROM facebook.pessoas;
+INSERT INTO pessoas(numero) VALUES (25);
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	numero smallint
+);
+
+INSERT INTO pessoas(numero) VALUES (32767);
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	numero int
+);
+
+-- -------------------------------------------------------
+-- AULA 9 - DATA TYPES (Parte 2)
+-- -------------------------------------------------------
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	numero float(5,2)
+);
+
+INSERT INTO pessoas (numero) VALUES (123.45);
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	numero float
+);
+
+INSERT INTO pessoas (numero) VALUES (123.45);
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	numero decimal(5,2)
+);
+
+INSERT INTO pessoas (numero) VALUES (123.45);
+DESCRIBE pessoas;
+
+USE facebook;
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas (
+	-- numero int
+	-- numero decimal(10,4)
+    texto tinytext    
+);
+
+-- INSERT INTO pessoas (numero) VALUES (123456.7890);
+
+INSERT INTO pessoas (texto) VALUES ('Teste');
+
+CREATE TABLE posts
+(
+titulo tinytext,
+postagem text,
+qtd_visualizacoes int
+);
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas
+(
+	-- numero int
+    -- numero decimal(10,4)
+	-- titulo tinytext
+    -- texto varchar(5)
+    texto char(2)
+);
+
+INSERT INTO pessoas (texto) values ('SP');
+
+DROP TABLE pessoas;
+
+CREATE TABLE pessoas
+(
+	-- numero int
+	-- numero decimal(10,4)
+	-- titulo tinytext
+	-- texto varchar(5)
+    data_nascimento date
+);
+
+INSERT INTO pessoas (data_nascimento) values ('2025-12-25');
+
+-- ----------------------------------------------------------
+-- AULA 11 - ALTER TABLE
+-- ----------------------------------------------------------
+
+CREATE TABLE postagens
+(
+    data_postagem datetime
+);
+
+INSERT INTO postagens (data_postagem) values ('2025-12-25 10:20:50');
+
+CREATE TABLE postagens
+(
+    titulo VARCHAR(30),    
+    qtd_visualizacoes INT NOT NULL   DEFAULT 0
+);
+
+ALTER TABLE postagens      
+	RENAME TO postagens_blog;
+
+ALTER TABLE postagens_blog
+	RENAME TO postagens;
+
+ALTER TABLE postagens
+	ADD COLUMN dt_postagem DATETIME;
+
+ALTER TABLE postagens 
+    ADD COLUMN dt_postagem DATETIME FIRST;
+
+ALTER TABLE postagens 
+    ADD COLUMN dt_postagem DATETIME AFTER titulo;
+
+ALTER TABLE postagens 
+    ADD COLUMN dt_postagem DATETIME,
+    ADD COLUMN usuario VARCHAR(120);
+
+ALTER TABLE postagens 
+    DROP COLUMN data_postagem; 
+
+ALTER TABLE postagens 
+    CHANGE COLUMN data_postagem dt_postagem DATE;
+
+ALTER TABLE postagens 
+    MODIFY COLUMN data_postagem DATE;
+    
+DROP TABLE postagens;
+
+
+CREATE TABLE postagens
+(
+    titulo VARCHAR(30),    
+    descricao text
+);
+
+INSERT INTO postagens(titulo) VALUES ('Título postagem');
+
+INSERT INTO postagens(descricao) VALUES ('Descrição postagem');
+
+DROP TABLE postagens;
+
+CREATE TABLE postagens
+(
+    titulo VARCHAR(30) NOT NULL,    
+    descricao text NOT NULL
+);
+
+INSERT INTO postagens(titulo, descricao) 
+	VALUES ('Título da postagem', 'Descrição da postagem');
+    
+DROP TABLE postagens;
+
+CREATE TABLE postagens
+(
+    titulo VARCHAR(30) NOT NULL default 'titulo padrão',    
+    descricao text NOT NULL,
+    qtd_visualizacoes int not null default 0
+);   
+
+INSERT INTO postagens(descricao) 
+	VALUES ('Descrição da postagem');
+    
+-- --------------------------------------------------------
+
+DROP TABLE postagens;
+
+CREATE TABLE postagens
+(
+    titulo VARCHAR(30) NOT NULL default 'Título padrão',    
+    descricao text NOT NULL
+);
+
+INSERT INTO postagens(titulo, descricao) 
+	VALUES ('Título da postagem', 'Descrição da postagem');
+    
+ALTER TABLE postagens
+	RENAME TO postagens_blog;
+    
+ALTER TABLE postagens_blog
+	RENAME TO postagens;
+    
+ALTER TABLE postagens
+	ADD column data_postagem datetime;
+    
+ALTER TABLE postagens
+	DROP column data_postagem;
+    
+ALTER TABLE postagens
+	ADD column data_postagem datetime FIRST;
+    
+ALTER TABLE postagens
+	DROP column data_postagem;
+    
+ALTER TABLE postagens
+	ADD column data_postagem datetime after titulo;
+    
+ALTER TABLE postagens
+	DROP column data_postagem,
+    DROP column qtd_visualizacoes;
+    
+-- ----------------------------------------------------------
+-- AULA 12 - ALTER TABLE (Parte 2)
+-- ----------------------------------------------------------
+
+ALTER TABLE postagens
+	ADD column data_postagem datetime not null after titulo,
+	ADD column qtd_visualizacoes int not null default 0;
+    
+ALTER TABLE postagens
+	DROP column data_postagem,
+    DROP column qtd_visualizacoes;
+    
+TRUNCATE TABLE postagens;
+
+ALTER TABLE postagens
+	ADD column data_postagem datetime not null after titulo,
+	ADD column qtd_visualizacoes int not null default 0;
+    
+INSERT INTO postagens(titulo, descricao, data_postagem) 
+	VALUES ('Título postagem', 'Descrição postagem', 
+			'2025-10-26 10:20:54');
+            
+ALTER TABLE postagens
+	CHANGE column data_postagem dt_postagem DATE not null;
+    
+ALTER TABLE postagens
+	MODIFY COLUMN qtd_visualizacoes FLOAT;
+    
+ALTER TABLE postagens
+	MODIFY COLUMN qtd_visualizacoes INT FIRST;
+
+ALTER TABLE postagens
+	MODIFY COLUMN qtd_visualizacoes INT AFTER descricao;
+    
+ALTER TABLE postagens
+	MODIFY COLUMN dt_postagem datetime;    
+
+INSERT INTO postagens(titulo, dt_postagem, descricao, 
+					  qtd_visualizacoes) 
+	VALUES ('Título postagem', '2025-10-26 10:20:54',
+            'Descrição postagem', 56265265);
+            
+ALTER TABLE postagens
+	MODIFY COLUMN qtd_visualizacoes bigint;
+    
+-- ---------------------------------------------------------
+-- AULA 13: UPDATE e DELETE
+-- ---------------------------------------------------------
+
+/*
+DELETE FROM usuarios
+	WHERE usuario = 'jamilton.damasceno';
+
+UPDATE usuarios SET
+	senha = '56789'
+    WHERE  usuario = 'marcos.almeida' 
+*/    
+    
+DROP TABLE usuarios;
+
+CREATE TABLE usuarios
+(
+	nome VARCHAR(70),
+    usuario VARCHAR(70),
+    senha VARCHAR(12)
+);
+
+INSERT INTO usuarios(nome, usuario, senha) 
+  VALUES ('Jamilton Damasceno', 'jamilton.damasceno', '123jamilton');
+            
+INSERT INTO usuarios(nome, usuario, senha) 
+	VALUES ('Maria Silva', 'maria.silva', '123456');
+
+DELETE FROM usuarios WHERE usuario = 'maria.silva';
+
+UPDATE usuarios SET
+    senha = '56789',
+    nome = 'Maria Almeida Silva'
+    WHERE usuario = 'maria.silva';
+
+ALTER TABLE usuarios ADD COLUMN idade TINYINT;
+
+UPDATE usuarios SET
+	idade = 30
+    WHERE usuario = 'maria.silva';
+
+TRUNCATE TABLE usuarios;
+    
+-- ------------------------------------------------------------
+-- AULA  15 - SELECT
+----------------------------------------------------------------
+
+CREATE TABLE vendas 
+(
+	usuario VARCHAR(40),
+    produto VARCHAR(60),
+    preco DECIMAL(15,2),
+    quantidade int,
+    categoria VARCHAR(60)
+);
+
+INSERT INTO vendas (usuario, produto, preco, quantidade, categoria)
+	VALUES('jamilton.damasceno', 'Notebook HP', 1200.90, 1, 'eletronicos');
+
+INSERT INTO vendas 
+  VALUES('pedro.silva', 'Guarda Roupa de 3 portas', 980.20, 1, 'eletrodomesticos');
+
+INSERT INTO vendas 
+  VALUES('gustavo.almeida', 'Pilhas AA', 26.90,  4, 'eletronicos');
+
+INSERT INTO vendas 
+  VALUES('ana.prado', 'iPhone 12 XL', 5600.00,   1, 'eletronicos');
+
+INSERT INTO vendas 
+  VALUES( 'marcela.nascimento', 'Garrafa de agua', 98.00,  1, 'acessorios');
+
+INSERT INTO vendas 
+  VALUES(    'marcela.nascimento', 'Ar condicionado', 2200.00,    2, 'eletrodomesticos');
+
+INSERT INTO vendas 
+  VALUES(  'marcela.nascimento', 'TV de 32 Polegadas', 1560.30,  2, 'eletronicos');
+
+INSERT INTO vendas 
+  VALUES(  'marcela.nascimento', 'ebook', 19.30,    2, 'livros');
+
+INSERT INTO vendas 
+  VALUES(  'marcela.nascimento', 'book certo', 52.30,   1, 'livros');
+
+/* select */
+
+SELECT *
+FROM vendas 
+WHERE usuario = 'marcela.nascimento';
+
+SELECT produto, preco, quantidade
+FROM vendas 
+WHERE usuario = 'marcela.nascimento';
+
+SELECT 	*
+FROM vendas
+WHERE usuario <> 'marcela.nascimento';
+
+SELECT *
+FROM vendas 
+WHERE preco > 2000;-- < e > ou <= e >=
+
+SELECT 	*
+FROM vendas 
+WHERE preco > 2200; -- < e > ou <= e >=
+
+SELECT *
+FROM vendas 
+WHERE categoria = 'eletronicos' AND preco > 1200;        -- AND e OR
+
+SELECT 	*
+FROM vendas 
+WHERE categoria = 'eletronicos' OR preco > 1200;          -- AND e OR
+
+SELECT *
+FROM vendas 
+WHERE categoria = 'eletronicos' AND preco > 1200 AND quantidade =2;
+
+SELECT 	*
+FROM vendas 
+WHERE produto LIKE '%book%';-- LIKE 
+
+SELECT	*
+FROM vendas 
+WHERE produto LIKE 'ebook';    -- LIKE
+
+-- ---------------------------------------------------------------
+-- AULA 16 - SELECT (Parte 1)
+-- ---------------------------------------------------------------
+
+ALTER TABLE vendas ADD COLUMN total DECIMAL(15,2);
+
+INSERT INTO vendas 
+VALUES('jamilton.damasceno', 'Zenphone Celular', 3500.90,    1, 'eletronicos');
+
+/* SELECT */
+
+SELECT * FROM vendas WHERE preco > 1200;
+
+/* Mais sobre consultas com SELECT */
+
+-- BETWEEN
+
+SELECT * FROM vendas WHERE preco BETWEEN 1200.90 AND 2000;
+
+SELECT * FROM vendas WHERE categoria= 'livros' OR categoria = 'eletrodomesticos';
+
+-- IN e NOT IN
+
+SELECT * FROM vendas WHERE categoria IN('livros', 'eletrodomesticos');
+
+-- NOT
+
+SELECT * FROM vendas WHERE NOT preco > 1200;
+
+SELECT * FROM vendas WHERE NOT preco BETWEEN 1200.90 AND 2000; -- ...1200.90 2000...
+
+SELECT * FROM vendas WHERE NOT produto LIKE '%note%';
+
+-- Ordenação com ORDER BY e LIMIT
+
+/*
+ASC -> ASCENDENTE A..Z 0..100
+DESC -> DESCENDENTE Z...A 100..0
+*/
+
+SELECT * FROM vendas 
+WHERE 1=1
+ORDER BY produto ASC
+LIMIT 5;
+
+-- ---------------------------------------------------------------
+-- AULA 17 - SELECT (Parte 2)
+-- ---------------------------------------------------------------
+
+-- Consultas com agregação, FUNCÕES SUM, MAX, MIN utilizando alias
+
+SELECT produto AS pro, preco, quantidade FROM vendas;
+
+SELECT produto, preco, quantidade, (preco * quantidade) AS total FROM vendas;
+
+select min(total) as total_vendas from vendas;
+
+SELECT usuario, MAX(total) AS total_vendas FROM vendas GROUP BY usuario;
+
+-- Alterando a tabela para total
+
+UPDATE vendas SET total = preco * quantidade;
+
+/* Limpar e remover tabelas */
+DROP TABLE postagens;
+TRUNCATE TABLE usuarios;
+
+-- ------------------------------------------------------------
+AULA 19 – PRIMARY KEY
+-- -----------------------------------------------------------
+
+CREATE TABLE produtos
+(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+    titulo VARCHAR(100),
+    descricao TEXT,
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70),
+    PRIMARY KEY(id),
+    UNIQUE KEY (titulo) -- e-mail , cpf
+);
+
+INSERT INTO produtos 
+  VALUES(null,'Headphone Philips wireless BT Preto TAH1205BK/00', 'descricao longa...',
+         94.34,'eletronicos','Philips','foto1, foto2,foto3');
+         
+INSERT INTO produtos VALUES
+(null,'Câmera GoPro HERO9 Black - Standard bundle com Cartão de memória 64GB Sandisk Extreme', 'descricao longa...', 2930.99,'câmeras','GoPro','foto1, foto2,foto3'),
+(null,'Console Nintendo Switch - Azul Neon e Vermelho Beon (Nacional)', 'descricao longa...',
+ 2199.90,'games','Philips','foto1, foto2,foto3');
+
+-- ---------------------------------------------------------------
+-- AULA 21 - FOREIGN KEY
+-- ---------------------------------------------------------------
+
+DROP TABLE IF EXISTS produtos;
+
+CREATE TABLE IF NOT EXISTS produtos 
+(
+	produto_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	titulo VARCHAR(100),
+    descricao TEXT,
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70)
+);
+
+CREATE TABLE IF NOT EXISTS pedidos 
+(
+	pedido_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    produto_id INT UNSIGNED NOT NULL,
+    preco DECIMAL(15,2),
+    quantidade SMALLINT,
+    usuario VARCHAR(40),
+    CONSTRAINT produtos_id_fk 
+    FOREIGN KEY (produto_id) REFERENCES produtos(produto_id)
+    -- CONSTRAINT usuarios_id_fk 
+    -- FOREIGN KEY (usuario_id) REFERENCES usuarios(produto_id)
+);
+
+INSERT INTO produtos VALUES(
+null, 'Headphone Philips Wireless BT Preto TAH1205BK/000', 'descricao longa...', 94.34,
+'eletronicos', 'philips', 'foto1, foto2, foto3');
+
+INSERT INTO produtos VALUES(
+null, 'Console Nintendo Switch - Azul Neon e Vermelho Neon (Nacional)', 'descricao longa...', 2199.90,
+'games', 'nintendo', 'foto1, foto2, foto3'
+);
+
+USE facebook;
+
+INSERT INTO pedidos VALUES(null, 2, 2199.90, 1, 'maria.silva');
+
+DELETE FROM pedidos WHERE pedido_id = 2;
+
+SELECT * FROM produtos WHERE produto_id = 2;
+
+DELETE FROM produtos WHERE produto_id = 2; -- cannot delete!!
+
+DELETE FROM pedidos WHERE pedido_id = 1;
+DELETE FROM produtos WHERE produto_id = 2;
+
+DROP TABLE IF EXISTS pedidos;
+DROP TABLE IF EXISTS produtos;
+
+CREATE TABLE IF NOT EXISTS produtos 
+(
+	produto_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	titulo VARCHAR(100),
+    descricao TEXT,
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70)
+);
+
+CREATE TABLE IF NOT EXISTS pedidos 
+(
+	pedido_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    produto_id INT UNSIGNED NOT NULL,
+    preco DECIMAL(15,2),
+    quantidade SMALLINT,
+    usuario VARCHAR(40),
+    CONSTRAINT produtos_id_fk 
+    FOREIGN KEY (produto_id) REFERENCES produtos(produto_id)
+    -- CONSTRAINT usuarios_id_fk 
+    -- FOREIGN KEY (usuario_id) REFERENCES usuarios(produto_id)
+);
+
+INSERT INTO produtos VALUES(
+null, 'Headphone Philips Wireless BT Preto TAH1205BK/000', 'descricao longa...', 94.34,
+'eletronicos', 'philips', 'foto1, foto2, foto3');
+
+INSERT INTO produtos VALUES(
+null, 'Console Nintendo Switch - Azul Neon e Vermelho Neon (Nacional)', 'descricao longa...', 2199.90,
+'games', 'nintendo', 'foto1, foto2, foto3'
+);
+
+INSERT INTO pedidos VALUES(null, 2, 2199.90, 1, 'maria.silva');INSERT INTO pedidos VALUES(null, 2, 2199.90, 1, 'maria.silva');
+
+SELECT * FROM pedidos JOIN produtos USING(produto_id);
+
+USE facebook;
+DROP TABLE IF EXISTS produtos, pedidos;
+DROP TABLE IF EXISTS produtos, produtos_detalhes;
+
+-- ---------------------------------------------------------------
+-- AULA 23 - 1:1
+-- ---------------------------------------------------------------
+
+USE facebook;
+DROP TABLE IF EXISTS salarios;
+DROP TABLE IF EXISTS funcionarios;
+DROP TABLE IF EXISTS produtos, produtos_detalhes;
+
+CREATE TABLE IF NOT EXISTS funcionarios
+(
+	id_funcionario INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    sobrenome VARCHAR(100)
+);
+
+INSERT INTO funcionarios VALUES(null, 'Maria', 'Almeida');
+INSERT INTO funcionarios VALUES(null, 'João', 'Silva');
+INSERT INTO funcionarios VALUES(null, 'Carla', 'Cavalho');
+INSERT INTO funcionarios VALUES(null, 'Pedro', 'Silvério');
+INSERT INTO funcionarios VALUES(null, 'Ana', 'Carla');
+
+-- ---------------------------------------------------------------
+
+DROP TABLE cargos;
+
+CREATE TABLE IF NOT EXISTS cargos
+(
+	id_cargo INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(50),
+    salario DECIMAL(15,2)
+);
+
+INSERT INTO cargos VALUES(null, 'CEO', 30000.00);
+INSERT INTO cargos VALUES(null, 'Diretor', 20000.00);
+INSERT INTO cargos VALUES(null, 'Gerente', 15000.00);
+INSERT INTO cargos VALUES(null, 'Programador', 10000.00);
+INSERT INTO cargos VALUES(null, 'Auxiliar Administrativo', 5000.00);
+
+-- ---------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS salarios
+(
+	id_salario INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_funcionario INT UNSIGNED NOT NULL UNIQUE KEY,
+    id_cargo INT UNSIGNED NOT NULL,
+    CONSTRAINT funcionarios_id_funcionario_fk
+       FOREIGN KEY(id_funcionario) REFERENCES funcionarios(id_funcionario),
+    CONSTRAINT cargos_id_cargo_fk
+       FOREIGN KEY(id_cargo) REFERENCES cargos(id_cargo)       
+);
+
+INSERT INTO salarios VALUES(null, 5, 1); -- Ana , CEO
+INSERT INTO salarios VALUES(null, 5, 1); -- nao funciona / unique key
+INSERT INTO salarios VALUES(null, 5, 2); -- nao funciona / unique key
+
+DROP TABLE salarios;
+
+-- DEVEMOS USAR UNIQUE KEY para não duplicar funcionarios na tabela salarios
+
+CREATE TABLE IF NOT EXISTS salarios
+(
+	id_salario INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_funcionario INT UNSIGNED NOT NULL UNIQUE KEY,
+    id_cargo INT UNSIGNED NOT NULL,
+    CONSTRAINT funcionarios_id_funcionario_fk
+    FOREIGN KEY(id_funcionario) REFERENCES funcionarios(id_funcionario),
+    CONSTRAINT cargos_id_cargo_fk
+    FOREIGN KEY(id_cargo) REFERENCES cargos(id_cargo)       
+);
+
+INSERT INTO salarios VALUES(null, 5, 2);
+-- INSERT INTO salarios VALUES(null, 5, 2);  -- ERRO não pode repetir key
+INSERT INTO salarios VALUES(null, 1, 1);
+INSERT INTO salarios VALUES(null, 2, 4);
+INSERT INTO salarios VALUES(null, 3, 4);
+
+-- ---------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS produtos 
+(
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	titulo VARCHAR(100),
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70)
+);
+
+INSERT INTO produtos VALUES(
+null, 'Notebook Dell Inspiron 15 3000', 3200.90,
+'Eletrônicos', 'Dell', 'foto1...'
+);
+
+-- ---------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS produtos_detalhes 
+(
+	id_produto_detalhe INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_produto 	INT UNSIGNED NOT NULL UNIQUE KEY,
+    descricao TEXT,
+    informacoes_adicionais TEXT,
+    cor VARCHAR(15),
+    memoria_interna VARCHAR(8),
+    tipo_tela VARCHAR(8),
+    conectividade VARCHAR(8),
+    CONSTRAINT produtos_id_produtos_fk 
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)    
+);
+
+INSERT INTO produtos_detalhes VALUES(
+null, 1,  'descricao de teste...', 'Informacao de teste...', 'prata', 
+'500GB', 'Retina', 'wifi'
+);
+
+-- ---------------------------------------------------------------
+--  AULA 24 -   FK como PK
+-- -----------------------------------------------------------------
+
+CREATE DATABASE loja;
+USE loja;
+
+CREATE TABLE IF NOT EXISTS produtos
+(
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70)
+);
+
+INSERT INTO produtos VALUES(
+	null, "Notebook Dell Inspiron 15 3000", 3200.90,
+    "Eletrônicos", "Dell", "Foto1..."
+);
+
+CREATE TABLE IF NOT EXISTS produtos_detalhes
+(
+	id_produto INT UNSIGNED NOT NULL PRIMARY KEY,
+    descricao TEXT,
+    informacoes_adicionais TEXT,
+    cor VARCHAR(15),
+    memoria_interna VARCHAR(8),
+    tipo_tela VARCHAR(8),
+    conectividade VARCHAR(8),
+    CONSTRAINT produtos_id_produto_fk
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+);
+
+INSERT INTO produtos_detalhes VALUES(
+	1, "Descrição de teste2...", "Informações de teste...", "Prata",
+    "500GB", "Retina", "Wifi"
+);
+
+select * from produtos;
+select * from produtos_detalhes;
+
+-- ---------------------------------------------------------------
+--  AULA 25 ( 1:N )
+-- -----------------------------------------------------------------
+USE facebook;
+
+DROP TABLE IF EXISTS salarios;
+DROP TABLE IF EXISTS cargos;
+DROP TABLE IF EXISTS funcionarios;
+DROP TABLE IF EXISTS produtos_detalhes;
+DROP TABLE IF EXISTS produtos;
+
+CREATE TABLE IF NOT EXISTS clientes
+(
+	id_cliente INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    sobrenome VARCHAR(100)
+);
+
+USE facebook;
+
+INSERT INTO clientes VALUES(null, 'Maria', 'Almeida');
+INSERT INTO clientes VALUES(null, 'João', 'Silva');
+INSERT INTO clientes VALUES(null, 'Carla', 'Carvalho');
+
+/* 
+Compras da Maria
+ - Notebook Samsung Book qtd: 1 preco: 3000
+ - Smart TV Led 32" HD   qtd: 1 preco: 2000
+*/
+
+CREATE TABLE IF NOT EXISTS pedidos
+(
+	id_pedido INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT UNSIGNED NOT NULL,
+    data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    produto VARCHAR(100) NOT NULL,
+    quantidade INT NOT NULL,
+    preco DECIMAL(15,2) NOT NULL,
+    CONSTRAINT clientes_id_cliente_fk
+		FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)   
+);
+
+INSERT INTO pedidos VALUES(NULL, 1, DEFAULT, 
+	'Notebook Samsung Book', 1, 3000);
+    
+INSERT INTO pedidos VALUES(NULL, 1, DEFAULT, 
+	'Smart TV Led 32" HD', 1, 2000);
+    
+INSERT INTO pedidos VALUES(NULL, 2, DEFAULT, 
+	'Smart TV Led 32" HD', 1, 2000);    
+    
+-- ---------------------------------------------------------------
+--  AULA 26 ( N:N )  
+-- ---------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS produtos
+(
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    preco DECIMAL(15,2),
+    categoria VARCHAR(70),
+    marca VARCHAR(70),
+    foto VARCHAR(70)
+);
+
+INSERT INTO produtos VALUES(
+	null, 'Notebook Dell Inspiron 15 3000', 3000.00,
+    'Eletrônicos', 'Dell', 'Foto1...'
+);
+
+INSERT INTO produtos VALUES(
+	null, 'Smart TV LED 32" HD ', 2000.00,
+    'TV', 'HQ', 'Foto1...'
+);
+
+DROP TABLE IF EXISTS pedidos;
+
+CREATE TABLE IF NOT EXISTS pedidos
+(
+	id_pedido INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT UNSIGNED NOT NULL,
+    data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_entrega DATE NOT NULL,
+    forma_pagamento VARCHAR(100),
+    endereco_entrega VARCHAR(100),
+    quantidade_itens INT NOT NULL,
+    total_itens DECIMAL(15,2),
+    produto VARCHAR(100) NOT NULL,
+    quantidade int,
+    preco DECIMAL(15,2) NOT NULL,
+    CONSTRAINT clientes_id_cliente_fk
+		FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)   
+);
+
+INSERT INTO pedidos VALUES(
+	null, 1, DEFAULT, '2021-12-25', 'CARTAO CREDITO', 'CASA', 2,
+    5000.00, 'Notebook Samsung Book', 1, 3000.00
+);
+
+INSERT INTO pedidos VALUES(
+	null, 1, DEFAULT, '2021-12-25', 'CARTAO CREDITO', 'CASA', 2,
+    5000.00, 'Smart TV LED 32#', 1, 2000.00
+);
+
+DROP TABLE IF EXISTS pedidos;
+
+CREATE TABLE IF NOT EXISTS pedidos
+(
+	id_pedido INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT UNSIGNED NOT NULL,
+    data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    quantidade INT NOT NULL,
+    total DECIMAL(15,2),
+    CONSTRAINT clientes_id_cliente_fk
+		FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)   
+);
+
+INSERT INTO pedidos VALUES(NULL, 1, DEFAULT, 2, 5000);
+
+CREATE TABLE IF NOT EXISTS pedidos_produtos
+(
+	id_pedido INT UNSIGNED NOT NULL,
+	id_produto INT UNSIGNED NOT NULL,
+    quantidade INT NOT NULL,
+    preco DECIMAL(15,2),
+    CONSTRAINT pedidos_id_pedido_fk
+		FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido), 
+	CONSTRAINT produtos_id_produto_fk
+		FOREIGN KEY (id_produto) REFERENCES produtos(id_produto),
+        PRIMARY KEY (id_pedido, id_produto)    
+);
+
+INSERT INTO pedidos_produtos VALUES(1, 1, 1, 3000.00); 
+INSERT INTO pedidos_produtos VALUES(1, 2, 1, 2000.00); 
+
+Select * From pedidos JOIN pedidos_produtos Using(id_pedido);
+
+-- ---------------------------------------------------------------
+--  AULA 27 ( Relacionamenot : AUTOREFERÊNCIA )  
+-- ---------------------------------------------------------------
+
+ALTER TABLE clientes ADD COLUMN id_cliente_indicacao INT UNSIGNED;
+
+INSERT INTO clientes VALUES(null, 'jamilton', 'Damasceno', 1);
+
+Select c.nome, c.sobrenome, c2.nome nome_indicacao
+From clientes c LEFT JOIN clientes c2
+ON c.id_cliente_indicacao = c2.id_cliente;
+
+UPDATE clientes SET id_cliente_indicacao = 1 WHERE id_cliente = 3;
+
+UPDATE clientes SET id_cliente_indicacao = 4 WHERE id_cliente = 2;
+
+Select c.nome, c.sobrenome, c2.nome nome_indicacao
+From clientes c LEFT JOIN clientes c2
+ON c.id_cliente_indicacao = c2.id_cliente;
+
+
+-- ---------------------------------------------------------------
+--  AULA 28 (Utilizando On Delete & On Update - Cascade, Restrict,
+--           Set Null, Set Default  )  
+-- ---------------------------------------------------------------
+
+DROP DATABASE loja;
+
+CREATE DATABASE loja;
+
+USE loja;
+
+CREATE TABLE IF NOT EXISTS categorias (
+	id_categoria INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(30)
+);
+
+INSERT INTO categorias VALUES(null, "Eletrônicos");
+INSERT INTO categorias VALUES(null, "Móveis");
+
+DROP TABLE produtos, categorias;
+
+USE loja;
+
+CREATE TABLE IF NOT EXISTS produtos (
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT UNSIGNED,-- não coloquei not null
+    nome VARCHAR(30),
+    preco DECIMAL(10,2),
+    FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria)  
+    
+		-- cascade -> propagar as alterações feitas
+        -- set null -> configurar nulo para o item removido        
+		-- ON DELETE set null 
+        -- ON UPDATE set null
+);
+
+INSERT INTO produtos VALUES(null, 1, "Notebook", 1000);
+INSERT INTO produtos VALUES(null, 2, "Mesa de jantar", 900);
+
+SELECT * FROM categorias;-- Tabela pai
+SELECT * FROM produtos;-- Tabela filha
+
+DELETE FROM categorias where id_categoria = 1; -- nao pode delete / update o parent row
+
+DROP TABLE produtos;
+
+CREATE TABLE IF NOT EXISTS produtos (
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT UNSIGNED,-- não coloquei not null
+    nome VARCHAR(30),
+    preco DECIMAL(10,2),
+    FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria)  
+		ON DELETE RESTRICT -- Padrão  /  Fica mais seguro
+		ON UPDATE RESTRICT
+);     
+        -- cascade -> propagar as alterações feitas
+        -- set null -> configurar nulo para o item removido        
+		-- ON DELETE set null 
+        -- ON UPDATE set null
+
+INSERT INTO produtos VALUES(null, 1, "Notebook", 1000);
+INSERT INTO produtos VALUES(null, 2, "Mesa de jantar", 900);    
+
+DELETE FROM categorias where id_categoria = 1; 
+-- Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`loja`.`produtos`, CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`) ON DELETE RESTRICT ON UPDATE RESTRICT)
+
+UPDATE categorias SET id_categoria = 3 WHERE id_categoria = 1;
+
+DROP TABLE produtos;
+
+CREATE TABLE IF NOT EXISTS produtos (
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT UNSIGNED,-- não coloquei not null
+    nome VARCHAR(30),
+    preco DECIMAL(10,2),
+    FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria)  
+		ON DELETE CASCADE -- Padrão  /  Fica mais seguro
+		ON UPDATE CASCADE
+);     
+        -- cascade -> propagar as alterações feitas
+        -- set null -> configurar nulo para o item removido        
+		-- ON DELETE set null 
+        -- ON UPDATE set null
+        
+INSERT INTO produtos VALUES(null, 1, "Notebook", 1000);
+INSERT INTO produtos VALUES(null, 2, "Mesa de jantar", 900);    
+
+DELETE FROM categorias where id_categoria = 1;  -- funciona por caus do cascade
+
+UPDATE categorias SET id_categoria = 3 WHERE id_categoria = 2; -- funciona por causa do cascade
+
+DROP TABLE produtos, categorias;
+
+CREATE TABLE IF NOT EXISTS categorias (
+	id_categoria INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(30)
+);
+
+INSERT INTO categorias VALUES(null, "Eletrônicos");
+INSERT INTO categorias VALUES(null, "Móveis");
+
+CREATE TABLE IF NOT EXISTS produtos (
+	id_produto INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT UNSIGNED,-- não coloquei not null
+    nome VARCHAR(30),
+    preco DECIMAL(10,2),
+    FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria)  
+		ON DELETE SET NULL
+		ON UPDATE SET NULL
+);     
+        -- cascade -> propagar as alterações feitas
+        -- set null -> configurar nulo para o item removido        
+		-- ON DELETE set null 
+        -- ON UPDATE set null
+        
+INSERT INTO produtos VALUES(null, 1, "Notebook", 1000);
+INSERT INTO produtos VALUES(null, 2, "Mesa de jantar", 900);    
+
+DELETE FROM categorias where id_categoria = 1;  
+
+UPDATE categorias SET id_categoria = 3 WHERE id_categoria = 2; 
+
+-- ---------------------------------------------------------------
+--  AULA 30 (Cross Join & Inner Join)
+-- ---------------------------------------------------------------
+
+create database juncoes;
+
+use juncoes;
+
+create table if not exists bebidas (
+	id_bebida int unsigned not null primary key auto_increment,
+    bebida varchar(10),
+    descricao varchar(20)
+);
+
+insert into bebidas values(null, "🧉", "Água Coco");
+insert into bebidas values(null, "🧋", "Suco");
+insert into bebidas values(null, "🥤", "Refrigerante");
+-- insert into bebidas values(null, "🍺", "Cerveja");
+
+
+create table if not exists comidas (
+	id_comida int unsigned not null primary key auto_increment,
+    comida varchar(20),
+    descricao varchar(20),
+    id_bebida int unsigned,
+    foreign key(id_bebida) references bebidas(id_bebida)
+);
+
+insert into comidas values(null, "🍔", "Hamburguer", 1);
+insert into comidas values(null, "🍱", "Com. Japonesa", null);
+insert into comidas values(null, "🥪", "Sanduíche", 2);
+-- insert into comidas values(null, "🍕", "Pizza", 2);
+
+Select * From bebidas;
+Select * From comidas;
+
+/*
+	1) Cross Join -> Cruzar dados (produto cartesiano)
+*/
+
+SELECT * FROM comidas CROSS JOIN bebidas;
+
+
+/*
+	2) InnerJoin -> Dados internos,o que é comum em 2 conjuntos
+*/
+Select * From bebidas;
+Select * From comidas;
+
+SELECT * 
+FROM comidas 
+INNER JOIN bebidas
+USING (id_bebida);
+
+SELECT * 
+FROM comidas c
+INNER JOIN bebidas b
+ON c.id_bebida = b.id_bebida;
+
+SELECT * 
+FROM comidas c
+INNER JOIN bebidas b
+ON c.id_bebida = b.id_bebida;
+
+SELECT * 
+FROM comidas c
+INNER JOIN bebidas b
+WHERE c.id_bebida = b.id_bebida;
+
+-- ---------------------------------------------------------------
+--  AULA 31 (Junções: Left Join, Right Join & Full Join)
+-- ---------------------------------------------------------------
+
+/*
+3) left (outer) join -> ESQUERDA EXTERNA
+Traz todos os resultados a esquerda + o que é comum nas duas tabelas
+*/
+
+Select * From bebidas;
+Select * From comidas;
+
+SELECT * FROM comidas LEFT JOIN bebidas USING(id_bebida);
+
+ insert into bebidas values(null, "🍺", "Cerveja");
+ 
+ insert into comidas values(null, "🍕", "Pizza", 2);
+ 
+ SELECT * FROM comidas LEFT JOIN bebidas USING(id_bebida);
+
+update comidas set id_bebida = NULL where id_comida = 4; -- 2
+update comidas set id_bebida = NULL where id_comida = 3; -- 2
+
+Select * From bebidas;
+Select * From comidas;
+
+SELECT * FROM bebidas LEFT JOIN comidas USING(id_bebida);
+
+update comidas set id_bebida = 2 where id_comida = 4; -- 2
+update comidas set id_bebida = 2 where id_comida = 3; -- 2
+
+Select * From bebidas;
+Select * From comidas;
+
+SELECT * FROM comidas RIGHT JOIN bebidas USING(id_bebida);
+/*
+4) right (outer) join
+*/
+select * from bebidas;
+select * from comidas;
+
+SELECT * FROM comidas RIGHT JOIN bebidas USING(id_bebida);
+
+/*
+5) full join (union)
+*/
+
+DROP TABLE bebidas,comidas;
+
+create table if not exists bebidas (
+	id_bebida int unsigned not null primary key auto_increment,
+    bebida varchar(10),
+    descricao varchar(20)
+);
+insert into bebidas values(null, "🧉", "Água Coco");
+insert into bebidas values(null, "🧋", "Suco");
+insert into bebidas values(null, "🥤", "Refrigerante");
+
+create table if not exists comidas (
+	id_comida int unsigned not null primary key auto_increment,
+    comida varchar(20),
+    descricao varchar(20),
+    id_bebida int unsigned,
+    foreign key(id_bebida) references bebidas(id_bebida)
+);
+insert into comidas values(null, "🍔", "Hamburguer", 1);
+insert into comidas values(null, "🍱", "Com. Japonesa", null);
+insert into comidas values(null, "🥪", "Sanduíche", 2);
+
+SELECT * FROM comidas RIGHT JOIN bebidas USING(id_bebida);
+
+
+SELECT * FROM comidas LEFT JOIN bebidas USING(id_bebida)
+UNION
+SELECT * FROM comidas RIGHT JOIN bebidas USING(id_bebida);
+
+-- ---------------------------------------------------------------
+--  AULA 32 (Junções: na prática & formatação de datas)
+-- ---------------------------------------------------------------
+
+CREATE DATABASE pratica;
+USE pratica;
+
+-- Cria tabela de clientes
+create table if not exists clientes (
+    id_cliente int unsigned not null auto_increment primary key,
+    nome_completo varchar(100),
+    idade tinyint,
+    cpf varchar(11)
+);
+insert into clientes values(
+    null, "Jamilton Damasceno", 30, "39823498721"
+);
+insert into clientes values(
+    null, "Maria Silva", 45, "39823498721"
+);
+
+-- DROP TABLE produtos;
+
+-- Cria tabela de produtos
+create table if not exists produtos (
+    id_produto int unsigned not null auto_increment primary key,
+    titulo varchar(100),
+    preco decimal(10,2),
+    marca varchar(70),
+    foto varchar(70)
+);
+
+insert into produtos values(
+    null, "Notebook Lenovo Ultrafino IdeaPad", 2899.00,
+    "lenovo", "foto"
+);
+
+insert into produtos values(
+    null, "Mouse Gamer Redragon Cobra", 118.00,
+    "Redragon", "foto"
+);
+
+insert into produtos values(
+    null, "Console Nintendo Switch", 2099.00,
+    "Nintendo", "foto"
+);
+
+-- Cria tabela de pedidos
+create table if not exists pedidos (
+    id_pedido int unsigned not null auto_increment primary key,
+    id_cliente int unsigned not null,
+    data_pedido datetime not null default current_timestamp,
+    data_entrega date not null,
+    forma_pagamento varchar(100) not null,
+    endereco_entrega varchar(100) not null,
+    quantidade_itens smallint not null,
+    total decimal(10,2),
+    foreign key(id_cliente) references clientes(id_cliente)
+);
+
+insert into pedidos values(
+    null, 1, default, "2025-11-20", "Boleto", "Rua Brigadeiro, 3045, APTO 10",
+    2, 3017.00
+);
+
+insert into pedidos values(
+    null, 2, default, "2025-11-15", "cartão de crédito", "AV. Pompéia, 3040",
+    1, 2099.00
+);
+
+-- Cria tabela de pedidos produtos
+create table if not exists itens_pedido (
+    id_pedido int unsigned not null,
+    id_produto int unsigned not null,
+    quantidade smallint not null,
+    preco decimal(10,2),
+    foreign key(id_pedido) references pedidos(id_pedido),
+    foreign key(id_produto) references produtos(id_produto),
+    primary key (id_pedido, id_produto)
+);
+
+insert into itens_pedido values(
+    1, 1, 1, 2089.00
+);
+
+insert into itens_pedido values(
+    1, 2, 1, 118.00
+);
+
+insert into itens_pedido values(
+    2, 3, 1, 2099.00
+);
+
+select * from clientes;
+select * from pedidos;
+select * from itens_pedido;
+select * from produtos;
+
+/*
+Join na prática
+*/
+
+SELECT * 
+FROM pedidos pe
+WHERE pe.id_cliente = 1;
+
+SELECT 
+	pe.data_entrega, pe.forma_pagamento, pe.endereco_entrega,
+    pe.total, cl.nome_completo
+FROM pedidos pe
+INNER JOIN clientes cl USING(id_cliente)
+WHERE pe.id_cliente = 1;
+
+SELECT 
+	DATE_FORMAT(pe.data_entrega,"%d/%m/%Y") as data_entrega_formatada,
+	DATE_FORMAT(pe.data_pedido,"%d/%m/%Y %h:%i:%s") as data_pedido_formatada,
+    pe.data_pedido, pe.data_entrega, pe.forma_pagamento,
+    pe.endereco_entrega, pe.total,
+    cl.nome_completo,
+    ip.quantidade, ip.preco,
+    pr.titulo, pr.marca
+FROM pedidos pe
+INNER JOIN clientes cl USING(id_cliente)
+INNER JOIN itens_pedido ip USING(id_pedido)
+INNER JOIN produtos pr USING(id_produto)
+WHERE pe.id_cliente = 2;
+
+-----------------------------------------------------------------
